@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gon17.R;
 import com.example.gon17.activity.home.HomeActivity;
+import com.example.gon17.activity.utils.LocateActivity;
 import com.example.gon17.db.UserDB;
+import com.example.gon17.model.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -50,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(LoginActivity.this, "Đăng nhập thành công",Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("user", userDB.selectUserByPhone(username)));
+//                    startActivity(new Intent(LoginActivity.this, LocateActivity.class));
                 }
             }
         });

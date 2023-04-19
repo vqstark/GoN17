@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.gon17.MainActivity;
 import com.example.gon17.R;
 import com.example.gon17.activity.home.HomeActivity;
+import com.example.gon17.activity.utils.LocateActivity;
 import com.example.gon17.db.UserDB;
 import com.example.gon17.model.User;
 import com.google.firebase.FirebaseException;
@@ -109,11 +110,11 @@ public class SignupActivity extends AppCompatActivity {
                 user.setFullName(name);
                 user.setPassword(password);
                 user.setAge(num_age);
-                user.setAddress("Ha Noi");
+                user.setAddress("Ha Dong, Ha Noi, Viet Nam");
 
-                if(userDB.addUser(user)!=null){
+                if(userDB.addUser(user)!=-1){
                     Toast.makeText(SignupActivity.this, "Đăng ký thành công",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignupActivity.this, HomeActivity.class).putExtra("user", user));
+                    startActivity(new Intent(SignupActivity.this, LocateActivity.class).putExtra("user", user));
                 }else{
                     Toast.makeText(SignupActivity.this, "Số điện thoại này đã được đăng kí",Toast.LENGTH_LONG).show();
                 }

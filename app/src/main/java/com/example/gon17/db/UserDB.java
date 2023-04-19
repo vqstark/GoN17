@@ -16,8 +16,9 @@ public class UserDB extends DBConnection{
     public User selectUserByPhone(String phoneNumber){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         Cursor rs = sqLiteDatabase.rawQuery("select * from users where phoneNumber = ?",new String[]{phoneNumber});
-        User user = new User();
+        User user = null;
         if (rs != null && rs.moveToFirst()) {
+            user = new User();
             user.setId(rs.getInt(0));
             user.setPhoneNumber((rs.getString(1)));
             user.setPassword((rs.getString(2)));
@@ -45,7 +46,7 @@ public class UserDB extends DBConnection{
         return status;
     }
 
-    public User addUser(User user){
+    public long addUser(User user){
         User u = selectUserByPhone(user.getPhoneNumber());
         if(u==null) {
             ContentValues values = new ContentValues();
@@ -56,9 +57,17 @@ public class UserDB extends DBConnection{
             values.put("address", user.getAddress());
             values.put("role", "ROLE_USER");
             SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-            sqLiteDatabase.insert("users", null, values);
-            return user;
+            return sqLiteDatabase.insert("users", null, values);
         }
-        return null;
+        return -1;
+    }
+
+    public int updateAddress(User user, String location){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("address",location);
+        String whereClause = "phoneNumber = ?";
+        String[] whereArgs = {user.getPhoneNumber()};
+        return sqLiteDatabase.update("users", values, whereClause, whereArgs);
     }
 }
