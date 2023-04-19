@@ -87,9 +87,10 @@ public class DBConnection extends SQLiteOpenHelper {
         boolean dbExist = checkDataBase();
 
         if (dbExist) {
-
+            System.out.println("====> Try to read data");
         } else {
             this.getReadableDatabase();
+            System.out.println("====> Start copy db from assets folder");
             try {
                 copyDataBase();
             } catch (IOException e) {
