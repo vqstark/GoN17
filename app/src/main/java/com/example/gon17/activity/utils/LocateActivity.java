@@ -51,7 +51,7 @@ public class LocateActivity extends AppCompatActivity {
     private EditText txtLocation;
     private Button btnSearchLocation, btnSelectLocation;
     private double mylatitude, mylongitude, curlatitude, curlongitude;
-    private String endPosition="0.0;0.0";
+    private String endPosition="20.980356447957945;105.78690022230148";
     private UserDB userDB;
 
     @Override
