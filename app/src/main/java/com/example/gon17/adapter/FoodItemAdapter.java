@@ -51,6 +51,13 @@ public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodI
                 foodClickedListeners.onCardClicked(foodItem);
             }
         });
+
+        holder.addToCartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                foodClickedListeners.onAddToCartBtnClicked(foodItem);
+            }
+        });
     }
 
     @Override
@@ -83,5 +90,6 @@ public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodI
 
     public interface FoodClickedListeners{
         void onCardClicked(FoodItem food);
+        void onAddToCartBtnClicked(FoodItem foodItem);
     }
 }
