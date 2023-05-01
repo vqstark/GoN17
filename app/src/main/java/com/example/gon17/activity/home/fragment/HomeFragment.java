@@ -1,5 +1,6 @@
 package com.example.gon17.activity.home.fragment;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -9,9 +10,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.gon17.R;
+import com.example.gon17.activity.GoToListFoodActivity;
 import com.example.gon17.activity.home.HomeActivity;
 import com.example.gon17.model.User;
 
@@ -22,6 +25,7 @@ public class HomeFragment extends Fragment {
 
     private TextView lblWelcome;
     private TextView lblPosDetails;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -62,6 +66,16 @@ public class HomeFragment extends Fragment {
 
         lblWelcome = view.findViewById(R.id.lblWelcome);
         lblWelcome.setText("Welcome "+user.getFullName());
+
+
+        Button btnGoToListFood = view.findViewById(R.id.btnGoToListFood);
+        btnGoToListFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), GoToListFoodActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

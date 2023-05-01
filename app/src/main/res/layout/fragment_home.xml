@@ -38,11 +38,11 @@
         android:text="Welcome"
         />
     <Button
-        android:id="@+id/btnGoToMenuFood"
+        android:id="@+id/btnGoToListFood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Go To Menu Food"
+        android:text="Go To List Food"
         />
 
 </RelativeLayout>
