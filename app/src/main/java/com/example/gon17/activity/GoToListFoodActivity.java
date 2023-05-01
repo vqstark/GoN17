@@ -4,16 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.gon17.R;
 import com.example.gon17.adapter.FoodItemAdapter;
 import com.example.gon17.model.FoodItem;
+import com.example.gon17.views.DetailFoodActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoToListFoodActivity extends AppCompatActivity {
+public class GoToListFoodActivity extends AppCompatActivity implements FoodItemAdapter.FoodClickedListeners {
 
     private RecyclerView recyclerView;
     private List<FoodItem> foodItemList;
@@ -50,6 +52,13 @@ public class GoToListFoodActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
 
-        adapter = new FoodItemAdapter();
+        adapter = new FoodItemAdapter(this);
+    }
+
+    @Override
+    public void onCardClicked(FoodItem food) {
+        Intent intent = new Intent(GoToListFoodActivity.this, DetailFoodActivity.class);
+        intent.putExtra("foodItem",food);
+        startActivity(intent);
     }
 }

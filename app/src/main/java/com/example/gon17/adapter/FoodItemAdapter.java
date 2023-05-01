@@ -19,6 +19,12 @@ public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodI
 
 
     private List<FoodItem> foodItemList;
+
+    private FoodClickedListeners foodClickedListeners;
+
+    public FoodItemAdapter(FoodClickedListeners foodClickedListeners){
+        this.foodClickedListeners = foodClickedListeners;
+    }
     public void setFoodItemList(List<FoodItem> foodItemList){
         this.foodItemList=foodItemList;
 
@@ -38,6 +44,13 @@ public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodI
         holder.foodDescriptionTv.setText(foodItem.getFoodDecription());
         holder.foodPriceTv.setText(String.valueOf(foodItem.getFoodPrice()));
         holder.foodImageView.setImageResource(foodItem.getFoodImage());
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                foodClickedListeners.onCardClicked(foodItem);
+            }
+        });
     }
 
     @Override
@@ -66,5 +79,9 @@ public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodI
             foodDescriptionTv = itemView.findViewById(R.id.eachFoodDescriptionTv);
             foodPriceTv = itemView.findViewById(R.id.eachFoodPriceTv);
         }
+    }
+
+    public interface FoodClickedListeners{
+        void onCardClicked(FoodItem food);
     }
 }
