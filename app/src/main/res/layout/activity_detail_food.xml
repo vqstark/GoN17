@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.DetailFoodActivity">
+    tools:context=".views.DetailFoodActivity"
+    android:background="@color/white"
+    >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="3dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="3dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +24,7 @@
 
         <ImageView
             android:id="@+id/detailActivityFoodIV"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:scaleType="centerCrop"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/fried_chicken_01" />
@@ -50,46 +52,38 @@
         android:text="TextView"
         android:textSize="22sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailActivityFoodNameTv" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:text="Ngon tuyet cu meo "
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailActivityFoodDescriptionTv" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/detailActivityAddToCartBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Add to Cart"
-        android:textAllCaps="false"
-        android:textSize="17sp"
-        android:background="@color/black"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/detailActivityFoodPriceTv" />
 
     <TextView
         android:id="@+id/detailActivityFoodPriceTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="TextView"
+        android:layout_marginTop="16dp"
+        android:text="d 1000"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/detailActivityFoodDescriptionTv"
-        app:layout_constraintTop_toTopOf="@+id/detailActivityFoodDescriptionTv" />
+        android:textColor="@color/orange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailActivityFoodNameTv" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/detailActivityAddToCartBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Thêm món"
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        android:backgroundTint="@color/orange"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

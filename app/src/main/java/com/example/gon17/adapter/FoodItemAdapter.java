@@ -42,7 +42,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodI
         FoodItem foodItem = foodItemList.get(position);
         holder.foodNameTv.setText(foodItem.getFoodName());
         holder.foodDescriptionTv.setText(foodItem.getFoodDecription());
-        holder.foodPriceTv.setText(String.valueOf(foodItem.getFoodPrice()));
+        holder.foodPriceTv.setText("đ " + String.valueOf(foodItem.getFoodPrice()));
         holder.foodImageView.setImageResource(foodItem.getFoodImage());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {

@@ -46,12 +46,6 @@ public class GoToListFoodActivity extends AppCompatActivity implements FoodItemA
         initializeVariables();
         setUpList();
 
-        viewModel.getAllCartItems().observe(this, new Observer<List<FoodCart>>() {
-            @Override
-            public void onChanged(List<FoodCart> foodCarts) {
-                foodCartList.addAll(foodCarts);
-            }
-        });
 
         adapter.setFoodItemList(foodItemList);
         recyclerView.setAdapter(adapter);
@@ -63,6 +57,18 @@ public class GoToListFoodActivity extends AppCompatActivity implements FoodItemA
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        viewModel.getAllCartItems().observe(this, new Observer<List<FoodCart>>() {
+            @Override
+            public void onChanged(List<FoodCart> foodCarts) {
+                foodCartList.addAll(foodCarts);
+            }
+        });
     }
 
     private void setUpList(){
@@ -127,12 +133,12 @@ public class GoToListFoodActivity extends AppCompatActivity implements FoodItemA
             viewModel.updateQuantity(id[0], quantity[0]);
             viewModel.updatePrice(id[0], quantity[0] * foodCart.getFoodPrice());
         }
-        makeSnackBar("Item Added To Cart");
+        makeSnackBar("Món Ăn Đã Được Thêm");
     }
 
     private void makeSnackBar(String msg){
         Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_SHORT)
-                .setAction("Go to Cart", new View.OnClickListener() {
+                .setAction("Giỏ Hàng", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         startActivity(new Intent(GoToListFoodActivity.this, CartActivity.class));

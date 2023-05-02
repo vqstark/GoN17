@@ -91,7 +91,7 @@ public class DetailFoodActivity extends AppCompatActivity {
     private void setDataToWidgets() {
         foodNameTV.setText(food.getFoodName());
         foodDescriptionTV.setText(food.getFoodDecription());
-        foodPriceTV.setText(String.valueOf(food.getFoodPrice()));
+        foodPriceTV.setText("đ" + String.valueOf(food.getFoodPrice()));
         foodImageView.setImageResource(food.getFoodImage());
     }
 

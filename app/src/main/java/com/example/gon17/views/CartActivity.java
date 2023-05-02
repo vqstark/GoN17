@@ -44,7 +44,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.CartC
                 for (int i=0;i<foodCarts.size();i++){
                     price = price + foodCarts.get(i).getTotalItemPrice();
                 }
-                totalCartPriceTv.setText(String.valueOf(price));
+                totalCartPriceTv.setText("đ " +String.valueOf(price));
             }
         });
 
