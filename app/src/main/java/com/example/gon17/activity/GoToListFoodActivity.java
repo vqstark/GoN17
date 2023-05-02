@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.gon17.R;
 import com.example.gon17.adapter.FoodItemAdapter;
 import com.example.gon17.model.FoodCart;
 import com.example.gon17.model.FoodItem;
 import com.example.gon17.viewmodel.CartViewModel;
+import com.example.gon17.views.CartActivity;
 import com.example.gon17.views.DetailFoodActivity;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -33,6 +35,8 @@ public class GoToListFoodActivity extends AppCompatActivity implements FoodItemA
     private List<FoodCart> foodCartList;
 
     private CoordinatorLayout coordinatorLayout;
+
+    private ImageView cartImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,13 @@ public class GoToListFoodActivity extends AppCompatActivity implements FoodItemA
         adapter.setFoodItemList(foodItemList);
         recyclerView.setAdapter(adapter);
 
+        cartImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(GoToListFoodActivity.this, CartActivity.class));
+            }
+        });
+
     }
 
     private void setUpList(){
@@ -64,6 +75,8 @@ public class GoToListFoodActivity extends AppCompatActivity implements FoodItemA
     }
 
     private void initializeVariables(){
+
+        cartImageView = findViewById(R.id.cartIv);
 
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         foodCartList = new ArrayList<>();
@@ -122,7 +135,7 @@ public class GoToListFoodActivity extends AppCompatActivity implements FoodItemA
                 .setAction("Go to Cart", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        startActivity(new Intent(GoToListFoodActivity.this, CartActivity.class));
                     }
                 }).show();
     }
