@@ -7,5 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+<<<<<<< HEAD
     <color name="primary_color">#D55107</color>
+=======
+    <color name="light_gray">#e0e0e0</color>
+    <color name="green_color">#00D100</color>
+    <color name="orange">#D45107</color>
+>>>>>>> fecddb16b2a1997408a385db7ca0fd9e2b93a429
 </resources>

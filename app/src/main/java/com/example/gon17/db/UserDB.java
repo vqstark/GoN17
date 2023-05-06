@@ -80,4 +80,13 @@ public class UserDB extends DBConnection{
         String[] whereArgs = {user.getPhoneNumber()};
         return sqLiteDatabase.update("users", values, whereClause, whereArgs);
     }
+
+    public int updateName(User user, String name){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("fullName",name);
+        String whereClause = "phoneNumber = ?";
+        String[] whereArgs = {user.getPhoneNumber()};
+        return sqLiteDatabase.update("users", values, whereClause, whereArgs);
+    }
 }

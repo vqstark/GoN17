@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -19,6 +19,15 @@
         android:theme="@style/Theme.GoN17"
         tools:targetApi="31">
         <activity
+            android:name=".views.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".views.DetailFoodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.GoToListFoodActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -29,25 +38,27 @@
         </activity>
         <activity
             android:name=".activity.auth.LoginActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".activity.home.HomeActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".activity.home.AdminActivity"
             android:exported="false">
         </activity>
         <activity
             android:name=".activity.auth.SignupActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".activity.utils.LocateActivity"
+
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".activity.account.UserInfoActivity"
+            android:exported="false"/>
+>>>>>>> fecddb16b2a1997408a385db7ca0fd9e2b93a429
     </application>
 
 </manifest>
