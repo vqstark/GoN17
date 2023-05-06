@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameFrag, orderFragment).commit();
                         return true;
                     case R.id.itemUser:
+                        accountFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameFrag, accountFragment).commit();
                         return true;
 

@@ -47,6 +47,9 @@
         <activity
             android:name=".activity.utils.LocateActivity"
             android:exported="false" />
+        <activity
+            android:name=".activity.account.UserInfoActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
