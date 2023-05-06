@@ -36,7 +36,10 @@ public class OpenDBHelper extends SQLiteOpenHelper {
             "create table if not exists food (id integer primary key autoincrement," +
                     "name text not null," +
                     "price double not null," +
-                    "description text not null)";
+                    "description text not null," +
+                    "image blob)";
+
+
 
     private static final String SQL_CREATE_ORDERS_TABLE =
             "create table if not exists orders (id integer primary key autoincrement," +
@@ -112,5 +115,7 @@ public class OpenDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
+        sqLiteDatabase.execSQL("drop table if exists food");
+        onCreate(sqLiteDatabase);
     }
 }
