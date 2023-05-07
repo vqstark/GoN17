@@ -1,27 +1,35 @@
 package com.example.gon17.model;
 
-import java.io.Serializable;
-
-public class Food implements Serializable {
+public class Food {
     private int id;
-    private String name;
+    private String foodName;
     private double price;
-    private String description;
+    private String desc;
+    private byte[] image;
+
+
+    public Food(int id, String foodName, double price, String desc, byte[] image) {
+        this.id = id;
+        this.foodName = foodName;
+        this.price = price;
+        this.desc = desc;
+        this.image = image;
+    }
 
     public Food() {
     }
 
-    public Food(int id, String name, double price, String description) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.description = description;
+    public byte[] getImage() {
+        return image;
     }
 
-    public Food(String name, double price, String description) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return foodName + " - " + price + " - " + desc;
     }
 
     public int getId() {
@@ -32,12 +40,12 @@ public class Food implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
     public double getPrice() {
@@ -48,11 +56,11 @@ public class Food implements Serializable {
         this.price = price;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

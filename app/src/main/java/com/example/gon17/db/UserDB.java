@@ -36,12 +36,22 @@ public class UserDB extends DBConnection{
         User user = selectUserByPhone(phoneNumber);
         if(user==null){
             return status;
+
         }else {
-            if(password.equals(user.getPassword())){
-                status = 1;
-            }else{
-                status = 0;
+            if (user.equals("admin")) {
+                if(password.equals(user.getPassword())){
+                    status = 2;
+                }else{
+                    status = 0;
+                }
+            } else {
+                if(password.equals(user.getPassword())){
+                    status = 1;
+                }else{
+                    status = 0;
+                }
             }
+
         }
         return status;
     }
@@ -66,6 +76,15 @@ public class UserDB extends DBConnection{
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put("address",location);
+        String whereClause = "phoneNumber = ?";
+        String[] whereArgs = {user.getPhoneNumber()};
+        return sqLiteDatabase.update("users", values, whereClause, whereArgs);
+    }
+
+    public int updateName(User user, String name){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("fullName",name);
         String whereClause = "phoneNumber = ?";
         String[] whereArgs = {user.getPhoneNumber()};
         return sqLiteDatabase.update("users", values, whereClause, whereArgs);
