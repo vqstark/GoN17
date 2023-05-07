@@ -52,9 +52,12 @@ public class LoginActivity extends AppCompatActivity {
                 }else if(status==0) {
                     Toast.makeText(LoginActivity.this, "Sai mật khẩu", Toast.LENGTH_LONG).show();
                 } else {
+                    User user = userDB.selectUserByPhone(username);
                     Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, AdminActivity.class).putExtra("user", userDB.selectUserByPhone(username)));
-//                    startActivity(new Intent(LoginActivity.this, LocateActivity.class));
+                    if(user.getRole().equals("ROLE_ADMIN"))
+                        startActivity(new Intent(LoginActivity.this, AdminActivity.class).putExtra("user", user));
+                    else
+                        startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("user", user));
                 }
             }
         });

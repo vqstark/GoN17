@@ -109,7 +109,7 @@ public class SignupActivity extends AppCompatActivity {
                 user.setFullName(name);
                 user.setPassword(password);
                 user.setAge(num_age);
-                user.setAddress("Ha Dong, Ha Noi, Viet Nam");
+                user.setAddress("20.980356447957945;105.78690022230148");
 
                 if(userDB.addUser(user)!=-1){
                     Toast.makeText(SignupActivity.this, "Đăng ký thành công",Toast.LENGTH_SHORT).show();
