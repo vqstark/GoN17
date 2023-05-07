@@ -36,12 +36,22 @@ public class UserDB extends DBConnection{
         User user = selectUserByPhone(phoneNumber);
         if(user==null){
             return status;
+
         }else {
-            if(password.equals(user.getPassword())){
-                status = 1;
-            }else{
-                status = 0;
+            if (user.equals("admin")) {
+                if(password.equals(user.getPassword())){
+                    status = 2;
+                }else{
+                    status = 0;
+                }
+            } else {
+                if(password.equals(user.getPassword())){
+                    status = 1;
+                }else{
+                    status = 0;
+                }
             }
+
         }
         return status;
     }
