@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/linearTitle"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:background="#D45107"
         >
         <ImageView
@@ -24,8 +24,9 @@
             android:id="@+id/lblName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="Fullname"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:layout_marginLeft="15dp"
             android:layout_gravity="center_vertical"
             />
@@ -34,7 +35,7 @@
     <LinearLayout
         android:id="@+id/linearUserInfo"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/linearTitle"
         android:background="@drawable/border_bottom"
         >
@@ -59,7 +60,7 @@
     <LinearLayout
         android:id="@+id/linearPayment"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/linearUserInfo"
         android:background="@drawable/border_bottom"
         >
@@ -84,7 +85,7 @@
     <LinearLayout
         android:id="@+id/linearLocation"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/linearPayment"
         android:background="@drawable/border_bottom"
         >
@@ -109,7 +110,7 @@
     <LinearLayout
         android:id="@+id/linearChangePassword"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/linearLocation"
         android:background="@drawable/border_bottom"
         >
@@ -134,7 +135,7 @@
     <LinearLayout
         android:id="@+id/linearLogout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/linearChangePassword"
         android:background="@drawable/border_bottom"
         >

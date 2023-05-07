@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.gon17.R;
 import com.example.gon17.activity.home.fragment.AccountFragment;
@@ -38,10 +39,30 @@ public class HomeActivity extends AppCompatActivity {
         orderFragment = new OrderFragment();
         accountFragment = new AccountFragment();
 
+        Fragment renderFragment = homeFragment;
+        int selectedId = R.id.itemHome;
+        try{
+            String intent_frag = getIntent().getStringExtra("fragment_name");
+            if(intent_frag.equals("CART_FRAGMENT")) {
+                renderFragment = cartFragment;
+                selectedId = R.id.itemCart;
+            }
+            if(intent_frag.equals("ORDER_FRAGMENT")) {
+                renderFragment = orderFragment;
+                selectedId = R.id.itemOrder;
+            }
+            if(intent_frag.equals("ACCOUNT_FRAGMENT")) {
+                renderFragment = accountFragment;
+                selectedId = R.id.itemUser;
+            }
+        }catch(Exception e){
+            renderFragment = homeFragment;
+        }
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
-        homeFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameFrag, homeFragment).commit();
+        renderFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameFrag, renderFragment).commit();
+        bottomNav.setSelectedItemId(selectedId);
 
         bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.example.gon17.MainActivity;
 import com.example.gon17.R;
+import com.example.gon17.activity.account.ChangePasswordActivity;
 import com.example.gon17.activity.account.UserInfoActivity;
 import com.example.gon17.activity.auth.LoginActivity;
+import com.example.gon17.activity.utils.LocateActivity;
 import com.example.gon17.model.User;
 
 public class AccountFragment extends Fragment {
@@ -49,6 +51,34 @@ public class AccountFragment extends Fragment {
                 Intent intent = new Intent(getContext(), UserInfoActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
+            }
+        });
+        linearPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        linearLocation.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), LocateActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        }));
+        linearChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            }
+        });
+        linearLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
             }
         });
         return view;
