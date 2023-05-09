@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -72,11 +73,12 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if(view==bt){
-            int rating = (int) ratingBar.getRating();
-            String context = cmt.getText().toString();
-            Comment c = new Comment(rating, context, new User(1, "","","",20,"",""), new Food(1, "",0,""));
-            CommentDB db = new CommentDB(this);
-            db.addComment(c);
+//            int rating = (int) ratingBar.getRating();
+//            String context = cmt.getText().toString();
+//            Comment c = new Comment(rating, context, new User(1, "","","",20,"",""), new Food(1, "",0,""));
+//            CommentDB db = new CommentDB(this);
+//            db.addComment(c);
+            Toast.makeText(this, "insert into comments", Toast.LENGTH_SHORT).show();
         }
     }
     @Override

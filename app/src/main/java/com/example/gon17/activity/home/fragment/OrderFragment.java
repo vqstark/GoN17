@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +18,17 @@ import android.widget.TextView;
 
 import com.example.gon17.R;
 import com.example.gon17.activity.auth.RatingActivity;
-public class OrderFragment extends Fragment{
+import com.example.gon17.adapter.RecycleViewAdapter;
+import com.example.gon17.db.OrderDB;
+import com.example.gon17.model.Order;
+
+import java.util.List;
+
+public class OrderFragment extends Fragment implements RecycleViewAdapter.Itemlistener{
     private Button bt;
+    private RecycleViewAdapter adapter;
+    private RecyclerView recyclerView;
+    private OrderDB db;
 
 //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,23 +70,39 @@ public class OrderFragment extends Fragment{
 //        }
 //    }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_order, container, false);
-        return view;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_order, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bt = view.findViewById(R.id.bt);
-        bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), RatingActivity.class);
-                startActivity(intent);
-            }
-        });
+        recyclerView=view.findViewById(R.id.recycleView);
+        adapter=new RecycleViewAdapter();
+        db=new OrderDB(getContext());
+
+//        db.addItem(new Item(1, "mua o to","mua sam", 200, "12/4/2023"));
+
+        List<Order> list=db.getAll();
+        adapter.setlist(list);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        adapter.setClickListener(this);
+    }
+    @Override
+    public void onItemClick(View view, int pos) {
+        Order order = adapter.getItem(pos);
+        Intent intent = new Intent(getActivity(), RatingActivity.class);
+        intent.putExtra("order", order);
+        startActivity(intent);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        List<Order> list=db.getAll();
+        adapter.setlist(list);
     }
 }
