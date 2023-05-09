@@ -30,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        getSupportActionBar().hide();
 
         frameFrag = findViewById(R.id.frameFrag);
         bottomNav = findViewById(R.id.bottomNav);
@@ -69,12 +70,15 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.itemHome:
+                        homeFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameFrag, homeFragment).commit();
                         return true;
                     case R.id.itemCart:
+                        cartFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameFrag, cartFragment).commit();
                         return true;
                     case R.id.itemOrder:
+                        orderFragment.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameFrag, orderFragment).commit();
                         return true;
                     case R.id.itemUser:

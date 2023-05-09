@@ -10,15 +10,12 @@ import com.example.gon17.model.Food;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodDAO {
+public class FoodDAO extends DBConnection{
     private SQLiteDatabase db;
-    private OpenDBHelper dbHelper;
-    private Context context;
 
     public FoodDAO(Context context) {
-        this.context = context;
-        dbHelper = new OpenDBHelper(context); //thực thi tạo database
-        db = dbHelper.getWritableDatabase(); // cho phép ghi dữ liệu vào database
+        super(context);
+        db = getReadableDatabase();
     }
 
     // thêm dữ liệu
