@@ -9,11 +9,14 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -54,14 +57,19 @@ public class LocateActivity extends AppCompatActivity {
     private String endPosition="20.980356447957945;105.78690022230148";
     private UserDB userDB;
 
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-        getSupportActionBar().hide();
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Thông tin vị trí");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.show();
 
         userDB = new UserDB(getApplicationContext());
-        User user = (User)getIntent().getSerializableExtra("user");
+        this.user = (User)getIntent().getSerializableExtra("user");
 
         try {
             if (ActivityCompat.checkSelfPermission(this, mPermission)!= PackageManager.PERMISSION_GRANTED) {
@@ -98,14 +106,6 @@ public class LocateActivity extends AppCompatActivity {
         IMapController mapController = map.getController();
         mapController.setZoom(19.0);
         GeoPoint myLocation = new GeoPoint(mylatitude, mylongitude);
-
-//        myLocationNewOverlay = new MyLocationNewOverlay(map);
-//        myLocationNewOverlay.setEnabled(true);
-//        myLocationNewOverlay.setDrawAccuracyEnabled(true);
-//        myLocationNewOverlay.enableFollowLocation();
-//        myLocationNewOverlay.enableMyLocation();
-//        myLocationNewOverlay.setDirectionIcon(BitmapFactory.decodeResource(getResources(), R.drawable.marker));
-//        map.getOverlays().add(myLocationNewOverlay);
 
         Marker startMarker = new Marker(map);
         startMarker.setPosition(myLocation);
@@ -205,20 +205,12 @@ public class LocateActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //this will refresh the osmdroid configuration on resuming.
-        //if you make changes to the configuration, use
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        //this will refresh the osmdroid configuration on resuming.
-        //if you make changes to the configuration, use
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //Configuration.getInstance().save(this, prefs);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 
@@ -252,5 +244,20 @@ public class LocateActivity extends AppCompatActivity {
                     permissionsToRequest.toArray(new String[0]),
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+
+                // Call account fragment
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("user",this.user);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

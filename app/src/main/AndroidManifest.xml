@@ -58,7 +58,10 @@
         <activity
             android:name=".activity.account.UserInfoActivity"
             android:exported="false"/>
->>>>>>> fecddb16b2a1997408a385db7ca0fd9e2b93a429
+
+        <activity
+            android:name=".activity.account.ChangePasswordActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

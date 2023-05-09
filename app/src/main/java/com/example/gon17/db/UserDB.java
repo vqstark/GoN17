@@ -81,6 +81,15 @@ public class UserDB extends DBConnection{
         return sqLiteDatabase.update("users", values, whereClause, whereArgs);
     }
 
+    public int updatePassword(User user, String password){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("password",password);
+        String whereClause = "phoneNumber = ?";
+        String[] whereArgs = {user.getPhoneNumber()};
+        return sqLiteDatabase.update("users", values, whereClause, whereArgs);
+    }
+
     public int updateName(User user, String name){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues values = new ContentValues();

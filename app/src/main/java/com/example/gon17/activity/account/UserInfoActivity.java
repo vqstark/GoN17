@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,11 +16,16 @@ import com.example.gon17.R;
 import com.example.gon17.activity.auth.LoginActivity;
 import com.example.gon17.activity.home.HomeActivity;
 import com.example.gon17.activity.home.fragment.AccountFragment;
+import com.example.gon17.db.UserDB;
 import com.example.gon17.model.User;
 
 public class UserInfoActivity extends AppCompatActivity {
 
     User user;
+
+    private UserDB userDB;
+
+    private EditText txtName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +38,20 @@ public class UserInfoActivity extends AppCompatActivity {
         actionBar.show();
 
         this.user = (User)getIntent().getSerializableExtra("user");
+        userDB = new UserDB(getApplicationContext());
 
+        txtName = findViewById(R.id.txtName);
         Button btnSave = findViewById(R.id.btnSaveChanges);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int status = userDB.updateName(user, txtName.getText().toString().trim());
                 Toast.makeText(getApplicationContext(), "Lưu thành công", Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("user",userDB.selectUserByPhone(user.getPhoneNumber()));
+                intent.putExtra("fragment_name", "ACCOUNT_FRAGMENT");
+                startActivity(intent);
             }
         });
     }
