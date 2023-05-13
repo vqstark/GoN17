@@ -125,35 +125,35 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
 
     @Override
     public void onAddToCartBtnClicked(FoodItem foodItem) {
-//        FoodCart foodCart = new FoodCart();
-//        foodCart.setFoodName(foodItem.getFoodName());
-//        foodCart.setFoodDecription(foodItem.getFoodDescription());
-//        foodCart.setFoodPrice(foodItem.getFoodPrice());
-//        foodCart.setFoodImage(foodItem.getFoodImage());
-//
-//        int quantity = 1;
-//        int id = -1;
-//        // Check if the food item already exists in the cart
-//        for (FoodCart cartItem : foodCartList) {
-//            if (cartItem.getFoodName().equals(foodItem.getFoodName())) {
-//                quantity = cartItem.getQuantity() + 1;
-//                id = cartItem.getId();
-//                break;
-//            }
-//        }
-//
-//        if (id == -1) {
-//            // The food item is not in the cart, so insert it
-//            foodCart.setQuantity(quantity);
-//            foodCart.setTotalItemPrice(quantity * foodCart.getFoodPrice());
-//            viewModel.insertCartItem(foodCart);
-//        } else {
-//            // The food item is already in the cart, so update its quantity and total price
-//            viewModel.updateQuantity(id, quantity);
-//            viewModel.updatePrice(id, quantity * foodCart.getFoodPrice());
-//        }
-//
-//        Snackbar.make(recyclerView, "Món ăn đã được thêm", Snackbar.LENGTH_SHORT).show();
+        FoodCart foodCart = new FoodCart();
+        foodCart.setFoodName(foodItem.getFoodName());
+        foodCart.setFoodDescription(foodItem.getFoodDescription());
+        foodCart.setFoodPrice(foodItem.getFoodPrice());
+        foodCart.setFoodImage(foodItem.getFoodImage());
+
+        int quantity = 1;
+        int id = -1;
+        // Check if the food item already exists in the cart
+        for (FoodCart cartItem : foodCartList) {
+            if (cartItem.getFoodName().equals(foodItem.getFoodName())) {
+                quantity = cartItem.getQuantity() + 1;
+                id = cartItem.getId();
+                break;
+            }
+        }
+
+        if (id == -1) {
+            // The food item is not in the cart, so insert it
+            foodCart.setQuantity(quantity);
+            foodCart.setTotalItemPrice(quantity * foodCart.getFoodPrice());
+            viewModel.insertCartItem(foodCart);
+        } else {
+            // The food item is already in the cart, so update its quantity and total price
+            viewModel.updateQuantity(id, quantity);
+            viewModel.updatePrice(id, quantity * foodCart.getFoodPrice());
+        }
+
+        Snackbar.make(recyclerView, "Món ăn đã được thêm", Snackbar.LENGTH_SHORT).show();
     }
 
 

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.DetailFoodActivity"
+    android:id="@+id/coordinatorLayout2"
     android:background="@color/white"
     >
 
