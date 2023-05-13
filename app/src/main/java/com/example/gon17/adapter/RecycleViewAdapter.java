@@ -51,17 +51,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         if(order == null)
             return;
 //        holder.img.setImageResource();
-        holder.total.setText(String.valueOf(order.getTotal()));
+        holder.title.setText("Đơn hàng " + order.getId());
+        holder.total.setText("Tổng: " + String.valueOf(order.getTotal()));
         holder.status.setText(order.getStatus());
         holder.date.setText(order.getDate());
-
-        holder.btdanhgia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), RatingActivity.class);
-                view.getContext().startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -72,15 +65,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView total, status, date;
-        private Button btdanhgia;
+        private TextView title, total, status, date;
         private ImageView img; // ảnh món đầu tiên
         public HomeViewHolder(@NonNull View view) {
             super(view);
+            title = view.findViewById(R.id.tvTitle);
             total = view.findViewById(R.id.tvTotal);
             status = view.findViewById(R.id.tvStatus);
             date = view.findViewById(R.id.tvDate);
-            btdanhgia = view.findViewById(R.id.btDanhgia);
 
             view.setOnClickListener(this);
         }

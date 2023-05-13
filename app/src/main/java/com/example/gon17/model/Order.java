@@ -9,25 +9,28 @@ public class Order implements Serializable {
     private int isPaid;
     private String note;
     private double total;
+    private User user;
 
     public Order() {
     }
 
-    public Order(int id, String date, String status, int isPaid, String note, double total) {
+    public Order(int id, String date, String status, int isPaid, String note, double total, User user) {
         this.id = id;
         this.date = date;
         this.status = status;
         this.isPaid = isPaid;
         this.note = note;
         this.total = total;
+        this.user=user;
     }
 
-    public Order(String date, String status, int isPaid, String note, double total) {
+    public Order(String date, String status, int isPaid, String note, double total,User user) {
         this.date = date;
         this.status = status;
         this.isPaid = isPaid;
         this.note = note;
         this.total = total;
+        this.user=user;
     }
 
     public int getId() {
@@ -54,14 +57,6 @@ public class Order implements Serializable {
         this.status = status;
     }
 
-    public int isPaid() {
-        return isPaid;
-    }
-
-    public void setPaid(int paid) {
-        isPaid = paid;
-    }
-
     public String getNote() {
         return note;
     }
@@ -76,5 +71,21 @@ public class Order implements Serializable {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public int getIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(int isPaid) {
+        this.isPaid = isPaid;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

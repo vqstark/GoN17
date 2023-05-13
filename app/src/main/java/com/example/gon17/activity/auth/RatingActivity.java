@@ -32,7 +32,7 @@ import java.util.List;
 public class RatingActivity extends AppCompatActivity implements View.OnClickListener{
     int REQUEST_CODE = 1;
     private static final int REQUEST_CODE_PICK_IMAGES = 102;
-    private ImageView img, imageView1, imageView2, imageView3, imageView4;
+    private ImageView imgFood, img, imageView1, imageView2, imageView3;
     private Button bt;
     private RatingBar ratingBar;
     private EditText cmt;
@@ -46,6 +46,7 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
         img = findViewById(R.id.imgRating);
+        imgFood = findViewById(R.id.imgFood);
         bt = findViewById(R.id.btGui);
         ratingBar = findViewById(R.id.rating_bar);
         cmt = findViewById(R.id.cmt);

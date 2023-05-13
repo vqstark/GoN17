@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,20 +16,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gon17.R;
 import com.example.gon17.activity.auth.RatingActivity;
+import com.example.gon17.activity.order.Ordered_FoodActivity;
 import com.example.gon17.adapter.RecycleViewAdapter;
 import com.example.gon17.db.OrderDB;
 import com.example.gon17.model.Order;
+import com.example.gon17.model.User;
 
 import java.util.List;
 
 public class OrderFragment extends Fragment implements RecycleViewAdapter.Itemlistener{
-    private Button bt;
     private RecycleViewAdapter adapter;
     private RecyclerView recyclerView;
     private OrderDB db;
+    private User user;
 
 //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,11 +85,13 @@ public class OrderFragment extends Fragment implements RecycleViewAdapter.Itemli
         super.onViewCreated(view, savedInstanceState);
         recyclerView=view.findViewById(R.id.recycleView);
         adapter=new RecycleViewAdapter();
+
         db=new OrderDB(getContext());
+        Bundle bundle = getArguments();
+        user = (User)bundle.getSerializable("user");
 
-//        db.addItem(new Item(1, "mua o to","mua sam", 200, "12/4/2023"));
-
-        List<Order> list=db.getAll();
+        List<Order> list=db.getAll(user);
+        System.out.println("====================================>" + list.size());
         adapter.setlist(list);
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(manager);
@@ -95,14 +101,18 @@ public class OrderFragment extends Fragment implements RecycleViewAdapter.Itemli
     @Override
     public void onItemClick(View view, int pos) {
         Order order = adapter.getItem(pos);
-        Intent intent = new Intent(getActivity(), RatingActivity.class);
+        Toast.makeText(getContext(), "OKKKKKKKKKKKKKK", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), Ordered_FoodActivity.class);
+        intent.putExtra("user", user);
         intent.putExtra("order", order);
         startActivity(intent);
     }
     @Override
     public void onResume() {
         super.onResume();
-        List<Order> list=db.getAll();
+        Bundle bundle = getArguments();
+        User user = (User)bundle.getSerializable("user");
+        List<Order> list=db.getAll(user);
         adapter.setlist(list);
     }
 }

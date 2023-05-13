@@ -24,38 +24,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tvName"
                 android:layout_gravity="center"
-                android:text="Đơn hàng 1"
+                android:text="Bánh mì pate"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/tvTotal"
+                android:id="@+id/tvPrice"
                 android:layout_gravity="center"
-                android:text="Tổng: 50k"
+                android:text="Đơn giá: 30k"
                 android:textSize="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:id="@+id/tvStatus"
+                android:id="@+id/tvQuantity"
                 android:layout_gravity="center"
-                android:text="Đã thanh toán"
+                android:text="Số lượng: 1"
                 android:textSize="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_weight="1"
+        <Button
+            android:id="@+id/btdanhgia"
+            android:text="Đánh giá"
             android:layout_gravity="center"
-            android:text="2/4/2023"
-            android:textSize="15dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
