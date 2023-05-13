@@ -6,6 +6,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -59,7 +61,7 @@ public class DetailFoodActivity extends AppCompatActivity {
     private void insertToRoom(){
         FoodCart foodCart = new FoodCart();
         foodCart.setFoodName(food.getFoodName());
-        foodCart.setFoodDecription(food.getFoodDecription());
+        foodCart.setFoodDescription(food.getFoodDescription());
         foodCart.setFoodPrice(food.getFoodPrice());
         foodCart.setFoodImage(food.getFoodImage());
 
@@ -84,15 +86,18 @@ public class DetailFoodActivity extends AppCompatActivity {
             viewModel.updateQuantity(id[0], quantity[0]);
             viewModel.updatePrice(id[0], quantity[0] * foodCart.getFoodPrice());
         }
-        
+
         startActivity(new Intent(DetailFoodActivity.this, CartActivity.class));
     }
 
     private void setDataToWidgets() {
         foodNameTV.setText(food.getFoodName());
-        foodDescriptionTV.setText(food.getFoodDecription());
+        foodDescriptionTV.setText(food.getFoodDescription());
         foodPriceTV.setText("đ" + String.valueOf(food.getFoodPrice()));
-        foodImageView.setImageResource(food.getFoodImage());
+
+        byte[] foodImageByteArray = food.getFoodImage();
+        Bitmap foodImageBitmap = BitmapFactory.decodeByteArray(foodImageByteArray, 0, foodImageByteArray.length);
+        foodImageView.setImageBitmap(foodImageBitmap);
     }
 
     private void initializeVariables() {

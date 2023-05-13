@@ -18,9 +18,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.gon17.R;
-import com.example.gon17.activity.GoToListFoodActivity;
+//import com.example.gon17.activity.GoToListFoodActivity;
 import com.example.gon17.activity.home.HomeActivity;
 import com.example.gon17.adapter.FoodItemAdapter;
+import com.example.gon17.db.FoodItemDAO;
 import com.example.gon17.model.FoodCart;
 import com.example.gon17.model.FoodItem;
 import com.example.gon17.model.User;
@@ -42,6 +43,7 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
     private List<FoodItem> foodItemList;
     private FoodItemAdapter adapter;
 
+    private FoodItemDAO foodItemDAO;
 
     private CartViewModel viewModel;
     private List<FoodCart> foodCartList;
@@ -91,6 +93,9 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
         recyclerView.setAdapter(adapter);
 
         // Set up the food items in the RecyclerView
+        foodItemDAO = new FoodItemDAO(getContext());
+
+        // Set up the food items in the RecyclerView
         setUpList();
 
         foodCartList = new ArrayList<>();
@@ -107,17 +112,10 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
         return view;
     }
 
-    private void setUpList(){
-        foodItemList = new ArrayList<>();
-        foodItemList.add(new FoodItem("Fried Chicken 01","Ngon 01",R.drawable.fried_chicken_01,80000));
-        foodItemList.add(new FoodItem("Fried Chicken 02","Ngon 02",R.drawable.fried_chicken_02,60000));
-        foodItemList.add(new FoodItem("Fried Chicken 03","Ngon 03",R.drawable.fried_chicken_03,50000));
-        foodItemList.add(new FoodItem("Fried Chicken 04","Ngon 04",R.drawable.fried_chicken_04,90000));
-        foodItemList.add(new FoodItem("Fried Chicken 05","Ngon 05",R.drawable.fried_chicken_05,100000));
-
+    private void setUpList() {
+        foodItemList = foodItemDAO.getAllFoodItems(); // Retrieve all food items from the database using FoodItemDAO
         adapter.setFoodItemList(foodItemList);
     }
-
     @Override
     public void onCardClicked(FoodItem food) {
         Intent intent = new Intent(getContext(), DetailFoodActivity.class);
@@ -127,44 +125,36 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
 
     @Override
     public void onAddToCartBtnClicked(FoodItem foodItem) {
-        FoodCart foodCart = new FoodCart();
-        foodCart.setFoodName(foodItem.getFoodName());
-        foodCart.setFoodDecription(foodItem.getFoodDecription());
-        foodCart.setFoodPrice(foodItem.getFoodPrice());
-        foodCart.setFoodImage(foodItem.getFoodImage());
-
-        int quantity = 1;
-        int id = -1;
-        // Check if the food item already exists in the cart
-        for (FoodCart cartItem : foodCartList) {
-            if (cartItem.getFoodName().equals(foodItem.getFoodName())) {
-                quantity = cartItem.getQuantity() + 1;
-                id = cartItem.getId();
-                break;
-            }
-        }
-
-        if (id == -1) {
-            // The food item is not in the cart, so insert it
-            foodCart.setQuantity(quantity);
-            foodCart.setTotalItemPrice(quantity * foodCart.getFoodPrice());
-            viewModel.insertCartItem(foodCart);
-        } else {
-            // The food item is already in the cart, so update its quantity and total price
-            viewModel.updateQuantity(id, quantity);
-            viewModel.updatePrice(id, quantity * foodCart.getFoodPrice());
-        }
-
-        makeSnackBar("Món Ăn Đã Được Thêm");
+//        FoodCart foodCart = new FoodCart();
+//        foodCart.setFoodName(foodItem.getFoodName());
+//        foodCart.setFoodDecription(foodItem.getFoodDescription());
+//        foodCart.setFoodPrice(foodItem.getFoodPrice());
+//        foodCart.setFoodImage(foodItem.getFoodImage());
+//
+//        int quantity = 1;
+//        int id = -1;
+//        // Check if the food item already exists in the cart
+//        for (FoodCart cartItem : foodCartList) {
+//            if (cartItem.getFoodName().equals(foodItem.getFoodName())) {
+//                quantity = cartItem.getQuantity() + 1;
+//                id = cartItem.getId();
+//                break;
+//            }
+//        }
+//
+//        if (id == -1) {
+//            // The food item is not in the cart, so insert it
+//            foodCart.setQuantity(quantity);
+//            foodCart.setTotalItemPrice(quantity * foodCart.getFoodPrice());
+//            viewModel.insertCartItem(foodCart);
+//        } else {
+//            // The food item is already in the cart, so update its quantity and total price
+//            viewModel.updateQuantity(id, quantity);
+//            viewModel.updatePrice(id, quantity * foodCart.getFoodPrice());
+//        }
+//
+//        Snackbar.make(recyclerView, "Món ăn đã được thêm", Snackbar.LENGTH_SHORT).show();
     }
-    private void makeSnackBar(String msg) {
-        Snackbar.make(recyclerView, msg, Snackbar.LENGTH_SHORT)
-                .setAction("Giỏ Hàng", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(getContext(), CartActivity.class));
-                    }
-                }).show();
-    }
+
 
 }

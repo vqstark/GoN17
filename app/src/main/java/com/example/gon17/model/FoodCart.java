@@ -13,8 +13,8 @@ public class FoodCart  {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String foodName,foodDecription;
-    private int foodImage;
+    private String foodName,foodDescription;
+    private byte[] foodImage;
     private double foodPrice;
 
 
@@ -33,19 +33,19 @@ public class FoodCart  {
         this.foodName = foodName;
     }
 
-    public String getFoodDecription() {
-        return foodDecription;
+    public String getFoodDescription() {
+        return foodDescription;
     }
 
-    public void setFoodDecription(String foodDecription) {
-        this.foodDecription = foodDecription;
+    public void setFoodDescription(String foodDescription) {
+        this.foodDescription = foodDescription;
     }
 
-    public int getFoodImage() {
+    public byte[] getFoodImage() {
         return foodImage;
     }
 
-    public void setFoodImage(int foodImage) {
+    public void setFoodImage(byte[] foodImage) {
         this.foodImage = foodImage;
     }
 

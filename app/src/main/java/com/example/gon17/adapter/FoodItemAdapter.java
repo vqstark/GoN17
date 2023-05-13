@@ -1,5 +1,6 @@
 package com.example.gon17.adapter;
 
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,25 +16,23 @@ import com.example.gon17.model.FoodItem;
 
 import java.util.List;
 
-public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodItemViewHolder>{
-
+public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodItemViewHolder> {
 
     private List<FoodItem> foodItemList;
-
     private FoodClickedListeners foodClickedListeners;
 
-    public FoodItemAdapter(FoodClickedListeners foodClickedListeners){
+    public FoodItemAdapter(FoodClickedListeners foodClickedListeners) {
         this.foodClickedListeners = foodClickedListeners;
     }
-    public void setFoodItemList(List<FoodItem> foodItemList){
-        this.foodItemList=foodItemList;
 
+    public void setFoodItemList(List<FoodItem> foodItemList) {
+        this.foodItemList = foodItemList;
     }
 
     @NonNull
     @Override
     public FoodItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.each_food, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.each_food, parent, false);
         return new FoodItemViewHolder(view);
     }
 
@@ -41,9 +40,10 @@ public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodI
     public void onBindViewHolder(@NonNull FoodItemViewHolder holder, int position) {
         FoodItem foodItem = foodItemList.get(position);
         holder.foodNameTv.setText(foodItem.getFoodName());
-        holder.foodDescriptionTv.setText(foodItem.getFoodDecription());
+        holder.foodDescriptionTv.setText(foodItem.getFoodDescription());
         holder.foodPriceTv.setText("đ " + String.valueOf(foodItem.getFoodPrice()));
-        holder.foodImageView.setImageResource(foodItem.getFoodImage());
+        // Set image from byte array
+        holder.foodImageView.setImageBitmap(BitmapFactory.decodeByteArray(foodItem.getFoodImage(), 0, foodItem.getFoodImage().length));
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,17 +62,12 @@ public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodI
 
     @Override
     public int getItemCount() {
-        if(foodItemList == null){
-            return 0;
-        }
-        else{
-            return foodItemList.size();
-        }
+        return foodItemList != null ? foodItemList.size() : 0;
     }
 
-    public class FoodItemViewHolder extends RecyclerView.ViewHolder{
+    public class FoodItemViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView foodImageView , addToCartBtn;
+        private ImageView foodImageView, addToCartBtn;
         private TextView foodNameTv, foodDescriptionTv, foodPriceTv;
         private CardView cardView;
 
@@ -88,7 +83,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter <FoodItemAdapter.FoodI
         }
     }
 
-    public interface FoodClickedListeners{
+    public interface FoodClickedListeners {
         void onCardClicked(FoodItem food);
         void onAddToCartBtnClicked(FoodItem foodItem);
     }

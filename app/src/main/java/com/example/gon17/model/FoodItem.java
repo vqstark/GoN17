@@ -3,27 +3,23 @@ package com.example.gon17.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 public class FoodItem implements Parcelable {
-
-
-
-    private String foodName,foodDecription;
-    private int foodImage;
+    private String foodName;
+    private String foodDescription;
+    private byte[] foodImage;
     private double foodPrice;
 
-    public FoodItem(String foodName, String foodDecription, int foodImage, double foodPrice) {
+    public FoodItem(String foodName, String foodDescription, byte[] foodImage, double foodPrice) {
         this.foodName = foodName;
-        this.foodDecription = foodDecription;
+        this.foodDescription = foodDescription;
         this.foodImage = foodImage;
         this.foodPrice = foodPrice;
     }
 
     protected FoodItem(Parcel in) {
         foodName = in.readString();
-        foodDecription = in.readString();
-        foodImage = in.readInt();
+        foodDescription = in.readString();
+        foodImage = in.createByteArray();
         foodPrice = in.readDouble();
     }
 
@@ -47,19 +43,19 @@ public class FoodItem implements Parcelable {
         this.foodName = foodName;
     }
 
-    public String getFoodDecription() {
-        return foodDecription;
+    public String getFoodDescription() {
+        return foodDescription;
     }
 
-    public void setFoodDecription(String foodDecription) {
-        this.foodDecription = foodDecription;
+    public void setFoodDescription(String foodDescription) {
+        this.foodDescription = foodDescription;
     }
 
-    public int getFoodImage() {
+    public byte[] getFoodImage() {
         return foodImage;
     }
 
-    public void setFoodImage(int foodImage) {
+    public void setFoodImage(byte[] foodImage) {
         this.foodImage = foodImage;
     }
 
@@ -79,8 +75,8 @@ public class FoodItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(foodName);
-        parcel.writeString(foodDecription);
-        parcel.writeInt(foodImage);
+        parcel.writeString(foodDescription);
+        parcel.writeByteArray(foodImage);
         parcel.writeDouble(foodPrice);
     }
 }

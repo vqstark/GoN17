@@ -10,7 +10,7 @@ import com.example.gon17.dao.CartDAO;
 import com.example.gon17.model.FoodCart;
 
 
-@Database(entities = {FoodCart.class},version = 1)
+@Database(entities = {FoodCart.class},version = 2)
 public abstract class CartDatabase extends RoomDatabase {
 
     public abstract CartDAO cartDAO();

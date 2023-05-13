@@ -35,40 +35,12 @@
             android:textStyle="bold"
             />
     </LinearLayout>
-    <Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        android:elevation="8dp"
-        android:layout_below="@+id/address">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="List of Food"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginEnd="16dp" />
-
-        <ImageView
-            android:id="@+id/cartIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_cart"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp" />
-
-    </Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listFoodRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar" />
+        android:layout_below="@+id/address"/>
 
 
 
