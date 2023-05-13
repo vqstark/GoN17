@@ -32,7 +32,7 @@ public class DetailFoodActivity extends AppCompatActivity {
     private CartViewModel viewModel;
     private List<FoodCart> foodCartList;
 
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
