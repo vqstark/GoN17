@@ -4,19 +4,19 @@ import java.io.Serializable;
 
 public class ImgComment implements Serializable {
     private int id;
-    private String imgPath;
+    private byte[] imgPath;
     private Comment comment;
 
     public ImgComment() {
     }
 
-    public ImgComment(int id, String imgPath, Comment comment) {
+    public ImgComment(int id, byte[] imgPath, Comment comment) {
         this.id = id;
         this.imgPath = imgPath;
         this.comment = comment;
     }
 
-    public ImgComment(String imgPath, Comment comment) {
+    public ImgComment(byte[] imgPath, Comment comment) {
         this.imgPath = imgPath;
         this.comment = comment;
     }
@@ -29,11 +29,11 @@ public class ImgComment implements Serializable {
         this.id = id;
     }
 
-    public String getImgPath() {
+    public byte[] getImgPath() {
         return imgPath;
     }
 
-    public void setImgPath(String imgPath) {
+    public void setImgPath(byte[] imgPath) {
         this.imgPath = imgPath;
     }
 

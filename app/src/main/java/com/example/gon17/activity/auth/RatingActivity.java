@@ -30,6 +30,9 @@ import com.example.gon17.model.Comment;
 import com.example.gon17.model.Food;
 import com.example.gon17.model.User;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +49,8 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
 
     private User user;
     private Food food;
+
+    private byte[] img1,img2,img3;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -90,12 +95,15 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if(view==bt){
-//            int rating = (int) ratingBar.getRating();
-//            String context = cmt.getText().toString();
-//            Comment c = new Comment(rating, context, new User(1, "","","",20,"",""), new Food(1, "",0,""));
-//            CommentDB db = new CommentDB(this);
-//            db.addComment(c);
-            Toast.makeText(this, "insert into comments", Toast.LENGTH_SHORT).show();
+            int rating = (int) ratingBar.getRating();
+            String context = cmt.getText().toString();
+            Comment c = new Comment(rating, context, user, food);
+            CommentDB db = new CommentDB(this);
+            long status = db.addComment(c, img1, img2, img3);
+            if(status!=-1)
+                Toast.makeText(this, "Thêm đánh giá thành công", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Không thể tạo đánh giá. Xin vui lòng thử lại", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
@@ -109,19 +117,28 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
                 // Nếu người dùng chọn nhiều tệp
                 for (int i = 0; i < clipData.getItemCount(); i++) {
                     Uri selectedImageUri = clipData.getItemAt(i).getUri();
-                    String imagePath = getRealPathFromUri(selectedImageUri); // hàm getRealPathFromUri() chuyển đổi Uri thành đường dẫn thực tế của tệp
-                    imageList.add(imagePath);
+                    try {
+                        if(i==0){
+                            img1 = uriToByteArray(selectedImageUri);
+                            imageView1.setImageURI(selectedImageUri);
+                        }
+                        if(i==1){
+                            img2 = uriToByteArray(selectedImageUri);
+                            imageView2.setImageURI(selectedImageUri);
+                        }
+                        if(i==2){
+                            img3 = uriToByteArray(selectedImageUri);
+                            imageView3.setImageURI(selectedImageUri);
+                        }
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+//                    String imagePath = getRealPathFromUri(selectedImageUri); // hàm getRealPathFromUri() chuyển đổi Uri thành đường dẫn thực tế của tệp
+//                    imageList.add(imagePath);
 //                    mAdapter = new ImageAdapter(this, imageList);
 //                    mRecyclerView.setAdapter(mAdapter);
-                    if(i==0){
-                        imageView1.setImageURI(selectedImageUri);
-                    }
-                    if(i==1){
-                        imageView2.setImageURI(selectedImageUri);
-                    }
-                    if(i==2){
-                        imageView3.setImageURI(selectedImageUri);
-                    }
                 }
 
             } else {
@@ -144,6 +161,20 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
         String path = cursor.getString(column_index);
         cursor.close();
         return path;
+    }
+
+    public byte[] uriToByteArray(Uri uri) throws IOException {
+        InputStream inputStream = getContentResolver().openInputStream(uri);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, length);
+        }
+
+        byteArrayOutputStream.flush();
+        return byteArrayOutputStream.toByteArray();
     }
 
     @Override

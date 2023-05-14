@@ -15,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.gon17.R;
+import com.example.gon17.db.CommentDB;
+import com.example.gon17.db.FoodDAO;
+import com.example.gon17.db.UserDB;
+import com.example.gon17.model.Comment;
+import com.example.gon17.model.CommentDTO;
 import com.example.gon17.model.FoodCart;
 import com.example.gon17.model.FoodItem;
 import com.example.gon17.viewmodel.CartViewModel;
@@ -32,7 +37,9 @@ public class DetailFoodActivity extends AppCompatActivity {
     private CartViewModel viewModel;
     private List<FoodCart> foodCartList;
 
-
+    private CommentDB commentDB;
+    private FoodDAO foodDAO;
+    private UserDB userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,22 @@ public class DetailFoodActivity extends AppCompatActivity {
 
         food = getIntent().getParcelableExtra("foodItem");
         initializeVariables();
+
+        commentDB = new CommentDB(getApplicationContext());
+        foodDAO = new FoodDAO(getApplicationContext());
+        userDB = new UserDB(getApplicationContext());
+
+        List<CommentDTO> commentDTOS = commentDB.getCommentsByFood(food.getId());
+        List<Comment> comments = new ArrayList<>();
+        for(CommentDTO commentDTO:commentDTOS){
+            Comment c = new Comment();
+            c.setId(commentDTO.getId());
+            c.setRating(commentDTO.getRating());
+            c.setContent(commentDTO.getContent());
+            c.setFood(foodDAO.getFoodById(commentDTO.getFoodID()));
+            c.setUser(userDB.selectUserById(commentDTO.getUserID()));
+            comments.add(c);
+        }
 
         viewModel.getAllCartItems().observe(this, new Observer<List<FoodCart>>() {
             @Override

@@ -31,6 +31,24 @@ public class UserDB extends DBConnection{
         return user;
     }
 
+    public User selectUserById(int id){
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+        Cursor rs = sqLiteDatabase.rawQuery("select * from users where id = ?",new String[]{id+""});
+        User user = null;
+        if (rs != null && rs.moveToFirst()) {
+            user = new User();
+            user.setId(rs.getInt(0));
+            user.setPhoneNumber((rs.getString(1)));
+            user.setPassword((rs.getString(2)));
+            user.setFullName((rs.getString(3)));
+            user.setAge((rs.getInt(4)));
+            user.setAddress((rs.getString(5)));
+            user.setRole((rs.getString(6)));
+            rs.close();
+        }
+        return user;
+    }
+
     public int checkUser(String phoneNumber, String password){
         int status = -1;
         User user = selectUserByPhone(phoneNumber);
