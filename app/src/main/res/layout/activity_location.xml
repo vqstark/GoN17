@@ -3,17 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thiết lập vị trí của bạn"
-        android:textColor="@color/black"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        >
-    </TextView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,6 +16,8 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:singleLine="true"
+            android:layout_weight="3"
             android:layout_marginRight="10dp"
             >
         </EditText>
@@ -34,6 +26,7 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="Tìm"
+            android:layout_weight="1"
             android:textColor="@color/white"
             >
         </Button>
@@ -46,6 +39,7 @@
 
     <Button
         android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
         android:id="@+id/btnSelectLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

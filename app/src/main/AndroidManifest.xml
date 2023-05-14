@@ -62,6 +62,10 @@
         <activity
             android:name=".activity.account.ChangePasswordActivity"
             android:exported="false"/>
+
+        <activity
+            android:name=".activity.auth.VerifyPhoneActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

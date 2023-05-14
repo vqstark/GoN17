@@ -2,6 +2,7 @@ package com.example.gon17.activity.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,8 +19,13 @@ import com.example.gon17.activity.home.HomeActivity;
 import com.example.gon17.activity.utils.LocateActivity;
 import com.example.gon17.db.UserDB;
 import com.example.gon17.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -28,16 +34,21 @@ import java.util.concurrent.TimeUnit;
 
 public class SignupActivity extends AppCompatActivity {
 
+    private static final String TAG = SignupActivity.class.getName();
     private EditText txtName, txtAge, txtPhone, txtPassword, txtReinput;
     private CheckBox checkBox;
     private Button btnSignup;
-
+    private FirebaseAuth mAuth;
     private UserDB userDB;
+    private User user;
+    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        getSupportActionBar().hide();
 
         userDB = new UserDB(getApplicationContext());
 
@@ -49,6 +60,8 @@ public class SignupActivity extends AppCompatActivity {
         checkBox = findViewById(R.id.checkBox);
         btnSignup = findViewById(R.id.btnSignup);
         btnSignup.setEnabled(false);
+
+        mAuth = FirebaseAuth.getInstance();
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -104,20 +117,77 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
-                User user = new User();
+                user = new User();
                 user.setPhoneNumber(phone);
                 user.setFullName(name);
                 user.setPassword(password);
                 user.setAge(num_age);
                 user.setAddress("20.980356447957945;105.78690022230148");
 
-                if(userDB.addUser(user)!=-1){
-                    Toast.makeText(SignupActivity.this, "Đăng ký thành công",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignupActivity.this, LocateActivity.class).putExtra("user", user));
+                phoneNumber = phone;
+                if(userDB.selectUserByPhone(phone)==null){
+                    sendVerificationCode(phone);
+//                    Toast.makeText(SignupActivity.this, "Đăng ký thành công",Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(SignupActivity.this, LocateActivity.class).putExtra("user", user));
                 }else{
                     Toast.makeText(SignupActivity.this, "Số điện thoại này đã được đăng kí",Toast.LENGTH_LONG).show();
                 }
             }
         });
+    }
+
+    private void sendVerificationCode(String number) {
+        PhoneAuthOptions options =
+            PhoneAuthOptions.newBuilder(mAuth)
+                .setPhoneNumber("+84"+number)            // Phone number to verify
+                .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                .setActivity(this)                 // Activity (for callback binding)
+                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                        signInWithPhoneAuthCredential(phoneAuthCredential);
+                    }
+
+                    @Override
+                    public void onVerificationFailed(@NonNull FirebaseException e) {
+                        Toast.makeText(SignupActivity.this, "Xác minh thất bại", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        super.onCodeSent(verificationId, forceResendingToken);
+                        // redirect VerifyPhoneActivity
+                        Intent intent = new Intent(SignupActivity.this, VerifyPhoneActivity.class);
+                        intent.putExtra("phone", phoneNumber);
+                        intent.putExtra("verificationId", verificationId);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                    }
+                })
+                .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "signInWithCredential:success");
+
+                        FirebaseUser user = task.getResult().getUser();
+                        // redirect Locate activity
+                        Toast.makeText(SignupActivity.this, user.getPhoneNumber(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SignupActivity.this, LocateActivity.class).putExtra("user", user));
+
+                    } else {
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                            Toast.makeText(SignupActivity.this, "Mã xác minh không có giá trị", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
     }
 }
