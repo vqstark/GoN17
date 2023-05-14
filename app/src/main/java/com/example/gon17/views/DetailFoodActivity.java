@@ -2,10 +2,13 @@ package com.example.gon17.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +18,7 @@ import com.example.gon17.R;
 import com.example.gon17.model.FoodCart;
 import com.example.gon17.model.FoodItem;
 import com.example.gon17.viewmodel.CartViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,8 @@ public class DetailFoodActivity extends AppCompatActivity {
     private FoodItem food;
     private CartViewModel viewModel;
     private List<FoodCart> foodCartList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +65,7 @@ public class DetailFoodActivity extends AppCompatActivity {
     private void insertToRoom(){
         FoodCart foodCart = new FoodCart();
         foodCart.setFoodName(food.getFoodName());
-        foodCart.setFoodDecription(food.getFoodDecription());
+        foodCart.setFoodDescription(food.getFoodDescription());
         foodCart.setFoodPrice(food.getFoodPrice());
         foodCart.setFoodImage(food.getFoodImage());
 
@@ -84,15 +90,20 @@ public class DetailFoodActivity extends AppCompatActivity {
             viewModel.updateQuantity(id[0], quantity[0]);
             viewModel.updatePrice(id[0], quantity[0] * foodCart.getFoodPrice());
         }
-        
-        startActivity(new Intent(DetailFoodActivity.this, CartActivity.class));
+
+//        startActivity(new Intent(DetailFoodActivity.this, CartActivity.class));
+
+
     }
 
     private void setDataToWidgets() {
         foodNameTV.setText(food.getFoodName());
-        foodDescriptionTV.setText(food.getFoodDecription());
+        foodDescriptionTV.setText(food.getFoodDescription());
         foodPriceTV.setText("đ" + String.valueOf(food.getFoodPrice()));
-        foodImageView.setImageResource(food.getFoodImage());
+
+        byte[] foodImageByteArray = food.getFoodImage();
+        Bitmap foodImageBitmap = BitmapFactory.decodeByteArray(foodImageByteArray, 0, foodImageByteArray.length);
+        foodImageView.setImageBitmap(foodImageBitmap);
     }
 
     private void initializeVariables() {
@@ -103,6 +114,7 @@ public class DetailFoodActivity extends AppCompatActivity {
         foodDescriptionTV = findViewById(R.id.detailActivityFoodDescriptionTv);
         foodPriceTV = findViewById(R.id.detailActivityFoodPriceTv);
         addToCartBtn = findViewById(R.id.detailActivityAddToCartBtn);
+
 
         viewModel = new ViewModelProvider(this).get(CartViewModel.class);
 

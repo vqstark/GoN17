@@ -1,6 +1,8 @@
 package com.example.gon17.model;
 
-public class Food {
+import java.io.Serializable;
+
+public class Food implements Serializable {
     private int id;
     private String foodName;
     private double price;

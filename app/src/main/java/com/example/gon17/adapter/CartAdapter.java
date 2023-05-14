@@ -1,5 +1,6 @@
 package com.example.gon17.adapter;
 
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +39,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         FoodCart foodCart = foodCartList.get(position);
-        holder.foodImageView.setImageResource(foodCart.getFoodImage());
+        holder.foodImageView.setImageBitmap(BitmapFactory.decodeByteArray(foodCart.getFoodImage(), 0, foodCart.getFoodImage().length));
         holder.foodNameTv.setText(foodCart.getFoodName());
-        holder.foodDescriptionTv.setText(foodCart.getFoodDecription());
+        holder.foodDescriptionTv.setText(foodCart.getFoodDescription());
         holder.foodQuantity.setText(foodCart.getQuantity() + "");
         holder.foodPriceTv.setText("đ " + String.valueOf(foodCart.getTotalItemPrice()));
 

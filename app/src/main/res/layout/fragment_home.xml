@@ -8,6 +8,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
+        android:id="@+id/address"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,19 +35,14 @@
             android:textStyle="bold"
             />
     </LinearLayout>
-    <TextView
-        android:id="@+id/lblWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Welcome"
-        />
-    <Button
-        android:id="@+id/btnGoToListFood"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Go To List Food"
-        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listFoodRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/address"/>
+
+
+
 
 </RelativeLayout>
