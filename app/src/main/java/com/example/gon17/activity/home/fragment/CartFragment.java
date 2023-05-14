@@ -14,12 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gon17.R;
 import com.example.gon17.adapter.CartAdapter;
+import com.example.gon17.db.FoodDAO;
+import com.example.gon17.db.OrderDB;
+import com.example.gon17.model.Food;
 import com.example.gon17.model.FoodCart;
+import com.example.gon17.model.User;
 import com.example.gon17.viewmodel.CartViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,6 +39,11 @@ public class CartFragment extends Fragment implements CartAdapter.CartClickedLis
     private AppCompatButton checkoutBtn;
     private CardView cardView;
 
+    private OrderDB orderDB;
+    private FoodDAO foodDB;
+
+    private User user;
+
     public CartFragment() {
         // Required empty public constructor
     }
@@ -44,6 +55,11 @@ public class CartFragment extends Fragment implements CartAdapter.CartClickedLis
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
         initializeVariables(view);
+
+        orderDB = new OrderDB(getContext());
+        foodDB = new FoodDAO(getContext());
+        Bundle bundle = getArguments();
+        user = (User)bundle.getSerializable("user");
 
         cartViewModel.getAllCartItems().observe(getViewLifecycleOwner(), new Observer<List<FoodCart>>() {
             @Override
@@ -60,11 +76,27 @@ public class CartFragment extends Fragment implements CartAdapter.CartClickedLis
         checkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cartViewModel.deleteAllCartItems();
-                textView.setVisibility(View.INVISIBLE);
-                checkoutBtn.setVisibility(View.INVISIBLE);
-                totalCartPriceTv.setVisibility(View.INVISIBLE);
-                cardView.setVisibility(View.VISIBLE);
+                if(cartViewModel.getAllCartItems().getValue().size()>0) {
+                    List<Food> food = new ArrayList<>();
+                    List<Integer> quantity = new ArrayList<>();
+                    List<FoodCart> foodCart = cartViewModel.getAllCartItems().getValue();
+                    for (FoodCart i : foodCart) {
+                        food.add(foodDB.getFoodById(i.getFoodId()));
+                        quantity.add(i.getQuantity());
+                    }
+                    long status = orderDB.createOrder(user, food, quantity);
+                    if (status != -1) {
+                        cartViewModel.deleteAllCartItems();
+                        textView.setVisibility(View.INVISIBLE);
+                        checkoutBtn.setVisibility(View.INVISIBLE);
+                        totalCartPriceTv.setVisibility(View.INVISIBLE);
+                        cardView.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getContext(), "Tạo đơn hàng thất bại", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Giỏ hàng trống", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

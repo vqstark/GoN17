@@ -1,5 +1,6 @@
 package com.example.gon17.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,10 +9,13 @@ import com.example.gon17.model.Food;
 import com.example.gon17.model.Order;
 import com.example.gon17.model.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class OrderDB extends DBConnection{
@@ -33,6 +37,37 @@ public class OrderDB extends DBConnection{
         }
         rs.close();
         return list;
+    }
+
+    public long createOrder(User user, List<Food> food, List<Integer> quantity){
+
+        double total = 0;
+        for(int i=0; i<food.size(); i++)
+            total += food.get(i).getPrice()*quantity.get(i);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+        // insert into order table
+        ContentValues values = new ContentValues();
+        values.put("date", currentDate);
+        values.put("status", "Chờ xác nhận");
+        values.put("isPaid", 0);
+        values.put("note", "");
+        values.put("total", total);
+        values.put("userID", user.getId());
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        long res = sqLiteDatabase.insert("orders", null, values);
+
+        if(res!=-1){
+            for(int i=0; i<food.size(); i++){
+                ContentValues values2 = new ContentValues();
+                values2.put("quantity", quantity.get(i));
+                values2.put("orderID", res);
+                values2.put("foodID", food.get(i).getId());
+                return sqLiteDatabase.insert("ordered_food", null, values2);
+            }
+        }
+        return -1;
     }
 
     public Map<Food, Integer> getFoodByOrderID(int orderID){

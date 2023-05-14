@@ -13,6 +13,7 @@ public class FoodCart  {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    private int foodId;
     private String foodName,foodDescription;
     private byte[] foodImage;
     private double foodPrice;
@@ -22,8 +23,13 @@ public class FoodCart  {
     private double totalItemPrice;
 
 
+    public int getFoodId() {
+        return foodId;
+    }
 
-
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
+    }
 
     public String getFoodName() {
         return foodName;

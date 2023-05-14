@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.gon17.model.FoodCart;
 import com.example.gon17.repository.CartRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartViewModel extends AndroidViewModel {
@@ -25,6 +26,15 @@ public class CartViewModel extends AndroidViewModel {
 
     public LiveData<List<FoodCart>> getAllCartItems(){
         return cartRepo.getAllCartItemsLiveData();
+    }
+
+    public List<Integer> getAllFoodIds(){
+        List<FoodCart> foodCarts = cartRepo.getAllCartItemsLiveData().getValue();
+        List<Integer> foodIds = new ArrayList<>();
+        for (FoodCart foodCart : foodCarts) {
+            foodIds.add(foodCart.getId());
+        }
+        return foodIds;
     }
 
     public void insertCartItem(FoodCart foodCart){

@@ -4,12 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class FoodItem implements Parcelable {
+
+    private int id;
     private String foodName;
     private String foodDescription;
     private byte[] foodImage;
     private double foodPrice;
 
-    public FoodItem(String foodName, String foodDescription, byte[] foodImage, double foodPrice) {
+    public FoodItem(int id, String foodName, String foodDescription, byte[] foodImage, double foodPrice) {
+        this.id = id;
         this.foodName = foodName;
         this.foodDescription = foodDescription;
         this.foodImage = foodImage;
@@ -17,6 +20,7 @@ public class FoodItem implements Parcelable {
     }
 
     protected FoodItem(Parcel in) {
+        id = in.readInt();
         foodName = in.readString();
         foodDescription = in.readString();
         foodImage = in.createByteArray();
@@ -34,6 +38,14 @@ public class FoodItem implements Parcelable {
             return new FoodItem[size];
         }
     };
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFoodName() {
         return foodName;
@@ -74,6 +86,7 @@ public class FoodItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
         parcel.writeString(foodName);
         parcel.writeString(foodDescription);
         parcel.writeByteArray(foodImage);

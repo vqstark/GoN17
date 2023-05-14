@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,13 +37,45 @@
             />
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/txtSearch"
+        android:layout_below="@+id/address"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Bạn muốn ăn gì nào?"
+        />
+
+    <ImageView
+        android:id="@+id/banner1"
+        android:layout_below="@+id/txtSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/banner1" />
+
+    <TextView
+        android:id="@+id/lblListFood"
+        android:layout_below="@+id/banner1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:text="Danh sách món ăn"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listFoodRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/address"/>
-
-
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@+id/lblListFood"/>
 
 
 </RelativeLayout>

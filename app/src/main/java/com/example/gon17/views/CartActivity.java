@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.example.gon17.R;
 import com.example.gon17.adapter.CartAdapter;
+import com.example.gon17.db.OrderDB;
 import com.example.gon17.model.FoodCart;
+import com.example.gon17.model.User;
 import com.example.gon17.viewmodel.CartViewModel;
 
 import java.util.List;
@@ -28,6 +30,9 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.CartC
     private CardView cardView;
     private CartAdapter cartAdapter;
 
+    private OrderDB orderDB;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,9 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.CartC
         setContentView(R.layout.activity_cart);
 
         initializeVariables();
+
+        orderDB = new OrderDB(getApplicationContext());
+        user = (User) getIntent().getSerializableExtra("user");
 
         cartViewModel.getAllCartItems().observe(this, new Observer<List<FoodCart>>() {
             @Override

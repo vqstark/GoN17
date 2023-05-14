@@ -23,18 +23,20 @@ public class FoodItemDAO extends DBConnection {
 
         Cursor cursor = db.rawQuery("SELECT * FROM food", null);
         if (cursor.moveToFirst()) {
+            int idIndex = cursor.getColumnIndex("id");
             int nameIndex = cursor.getColumnIndex("name");
             int descriptionIndex = cursor.getColumnIndex("description");
             int priceIndex = cursor.getColumnIndex("price");
             int imageIndex = cursor.getColumnIndex("image");
 
             do {
+                int id = cursor.getInt(idIndex);
                 String foodName = cursor.getString(nameIndex);
                 String foodDescription = cursor.getString(descriptionIndex);
                 double foodPrice = cursor.getDouble(priceIndex);
                 byte[] foodImage = cursor.getBlob(imageIndex);
 
-                FoodItem foodItem = new FoodItem(foodName, foodDescription, foodImage, foodPrice);
+                FoodItem foodItem = new FoodItem(id, foodName, foodDescription, foodImage, foodPrice);
                 foodItemList.add(foodItem);
             } while (cursor.moveToNext());
         }

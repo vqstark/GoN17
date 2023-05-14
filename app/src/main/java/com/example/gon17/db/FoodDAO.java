@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.gon17.model.Food;
+import com.example.gon17.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,20 @@ public class FoodDAO extends DBConnection{
         }
         c.close();
         return ls;
+    }
+
+    public Food getFoodById(int id){
+        Cursor rs = db.rawQuery("Select * from food where id = ?", new String[]{id+""});
+        Food f = new Food();
+        if (rs != null && rs.moveToFirst()) {
+            f.setId(rs.getInt(0));
+            f.setFoodName((rs.getString(1)));
+            f.setPrice((rs.getDouble(2)));
+            f.setDesc((rs.getString(3)));
+            f.setImage((rs.getBlob(4)));
+            rs.close();
+        }
+        return f;
     }
 
     // sửa dữ liệu

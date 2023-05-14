@@ -126,6 +126,7 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
     @Override
     public void onAddToCartBtnClicked(FoodItem foodItem) {
         FoodCart foodCart = new FoodCart();
+        foodCart.setFoodId(foodItem.getId());
         foodCart.setFoodName(foodItem.getFoodName());
         foodCart.setFoodDescription(foodItem.getFoodDescription());
         foodCart.setFoodPrice(foodItem.getFoodPrice());

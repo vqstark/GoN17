@@ -45,12 +45,12 @@ public class Ordered_FoodFragment extends Fragment implements Ordered_FoodAdapte
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView=view.findViewById(R.id.recycleView);
-        adapter=new Ordered_FoodAdapter(getContext(), user);
 
         db=new OrderDB(getContext());
         Bundle bundle = getArguments();
         user = (User)bundle.getSerializable("user");
         order = (Order) bundle.getSerializable("order");
+        adapter=new Ordered_FoodAdapter(getContext(), user);
 
         Map<Food, Integer> list=db.getFoodByOrderID(order.getId());
         List<Food> foodList = new ArrayList<>();
@@ -79,9 +79,6 @@ public class Ordered_FoodFragment extends Fragment implements Ordered_FoodAdapte
     @Override
     public void onResume() {
         super.onResume();
-        Bundle bundle = getArguments();
-        user = (User)bundle.getSerializable("user");
-        order = (Order) bundle.getSerializable("order");
 
         Map<Food, Integer> list=db.getFoodByOrderID(order.getId());
         List<Food> foodList = new ArrayList<>();

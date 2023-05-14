@@ -1,13 +1,17 @@
 package com.example.gon17.activity.order;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.gon17.R;
+import com.example.gon17.activity.home.HomeActivity;
 import com.example.gon17.activity.home.fragment.Ordered_FoodFragment;
 import com.example.gon17.model.Order;
 import com.example.gon17.model.User;
@@ -24,6 +28,11 @@ public class Ordered_FoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ordered_food);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Chi tiết đơn hàng");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.show();
+
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
         order = (Order) intent.getSerializableExtra("order");
@@ -34,5 +43,21 @@ public class Ordered_FoodActivity extends AppCompatActivity {
         bundle.putSerializable("order", order);
         ordered_foodFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.frameFrag, ordered_foodFragment).commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+
+                // Call account fragment
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("user",this.user);
+                intent.putExtra("fragment_name", "ORDER_FRAGMENT");
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

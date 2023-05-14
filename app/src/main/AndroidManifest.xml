@@ -27,9 +27,9 @@
         <activity
             android:name=".views.DetailFoodActivity"
             android:exported="false" />
-        <activity
-            android:name=".activity.GoToListFoodActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".activity.GoToListFoodActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -69,7 +69,6 @@
         <activity
             android:name=".activity.auth.VerifyPhoneActivity"
             android:exported="false"/>
-            android:exported="false" />
         <activity
             android:name=".activity.auth.RatingActivity"
             android:exported="false" />

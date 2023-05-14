@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +15,15 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gon17.R;
+import com.example.gon17.activity.home.HomeActivity;
 import com.example.gon17.adapter.ImageAdapter;
 import com.example.gon17.db.CommentDB;
 import com.example.gon17.model.Comment;
@@ -40,11 +44,23 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
 //    private ImageAdapter mAdapter;
     private List<String> imageList;
 
+    private User user;
+    private Food food;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Đánh giá");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.show();
+
+        user = (User)getIntent().getSerializableExtra("user");
+        food = (Food) getIntent().getSerializableExtra("food");
+
         img = findViewById(R.id.imgRating);
         imgFood = findViewById(R.id.imgFood);
         bt = findViewById(R.id.btGui);
@@ -128,5 +144,20 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
         String path = cursor.getString(column_index);
         cursor.close();
         return path;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Call account fragment
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("user",this.user);
+                intent.putExtra("fragment_name", "ORDER_FRAGMENT");
+                startActivity(intent);
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
