@@ -1,6 +1,8 @@
 package com.example.gon17.activity.home.fragment;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.example.gon17.model.Food;
 import com.example.gon17.model.Order;
 import com.example.gon17.model.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +65,31 @@ public class Ordered_FoodFragment extends Fragment implements Ordered_FoodAdapte
         title.setText("Đơn hàng #" + order.getId());
         total.setText("Tổng: " + order.getTotal() + " - Tiền mặt");
         username.setText(user.getFullName() + " - " + user.getPhoneNumber());
-        address.setText(user.getAddress());
+
+        // Lấy vị trí người dùng
+        Geocoder geocoder = new Geocoder(getContext());
+        String theAddress;
+        String[] pos = user.getAddress().split(";");
+        try{
+            List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(pos[0]), Double.parseDouble(pos[1]), 1);
+            StringBuilder sb = new StringBuilder();
+            if (addresses.size() > 0) {
+                Address address = addresses.get(0);
+                int n = address.getMaxAddressLineIndex();
+                for (int i=0; i<=n; i++) {
+                    if (i!=0)
+                        sb.append(", ");
+                    sb.append(address.getAddressLine(i));
+                }
+                theAddress = sb.toString();
+            } else {
+                theAddress = null;
+            }
+        } catch (IOException e) {
+            theAddress = null;
+        }
+        address.setText(theAddress);
+
         time.setText(order.getDate());
 
         Map<Food, Integer> list=db.getFoodByOrderID(order.getId());
