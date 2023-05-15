@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.gon17.R;
 import com.example.gon17.model.FoodItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodItemViewHolder> {
@@ -21,12 +22,20 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
     private List<FoodItem> foodItemList;
     private FoodClickedListeners foodClickedListeners;
 
-    public FoodItemAdapter(FoodClickedListeners foodClickedListeners) {
+    public void setClickFoodItem(FoodClickedListeners foodClickedListeners) {
         this.foodClickedListeners = foodClickedListeners;
     }
 
     public void setFoodItemList(List<FoodItem> foodItemList) {
         this.foodItemList = foodItemList;
+        notifyDataSetChanged();
+    }
+    public FoodItemAdapter() {
+        foodItemList = new ArrayList<>();
+    }
+
+    public FoodItem getItem(int pos){
+        return foodItemList.get(pos);
     }
 
     @NonNull
@@ -45,13 +54,6 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
         // Set image from byte array
         holder.foodImageView.setImageBitmap(BitmapFactory.decodeByteArray(foodItem.getFoodImage(), 0, foodItem.getFoodImage().length));
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                foodClickedListeners.onCardClicked(foodItem);
-            }
-        });
-
         holder.addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,29 +64,37 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
 
     @Override
     public int getItemCount() {
-        return foodItemList != null ? foodItemList.size() : 0;
+        if(foodItemList != null)
+            return foodItemList.size();
+        return 0;
     }
 
-    public class FoodItemViewHolder extends RecyclerView.ViewHolder {
+    public class FoodItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView foodImageView, addToCartBtn;
         private TextView foodNameTv, foodDescriptionTv, foodPriceTv;
-        private CardView cardView;
 
         public FoodItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            cardView = itemView.findViewById(R.id.eachFoodCardView);
             addToCartBtn = itemView.findViewById(R.id.eachFoodAddToCartBtn);
             foodNameTv = itemView.findViewById(R.id.eachFoodName);
             foodImageView = itemView.findViewById(R.id.eachFoodIv);
             foodDescriptionTv = itemView.findViewById(R.id.eachFoodDescriptionTv);
             foodPriceTv = itemView.findViewById(R.id.eachFoodPriceTv);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if(foodClickedListeners != null){
+                foodClickedListeners.onItemClick(view,getAdapterPosition());// => view mon an
+            }
         }
     }
 
     public interface FoodClickedListeners {
-        void onCardClicked(FoodItem food);
         void onAddToCartBtnClicked(FoodItem foodItem);
+        void onItemClick(View view, int pos);
     }
 }

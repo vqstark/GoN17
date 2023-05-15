@@ -66,7 +66,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView title, total, status, date;
-        private ImageView img; // ảnh món đầu tiên
+        private ImageView img;
         public HomeViewHolder(@NonNull View view) {
             super(view);
             title = view.findViewById(R.id.tvTitle);

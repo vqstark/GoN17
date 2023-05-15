@@ -6,11 +6,14 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -22,11 +25,15 @@ import android.widget.TextView;
 import com.example.gon17.R;
 //import com.example.gon17.activity.GoToListFoodActivity;
 import com.example.gon17.activity.home.HomeActivity;
+import com.example.gon17.activity.order.Ordered_FoodActivity;
 import com.example.gon17.adapter.FoodItemAdapter;
+import com.example.gon17.adapter.RecycleViewAdapter;
 import com.example.gon17.db.FoodItemDAO;
+import com.example.gon17.db.OrderDB;
 import com.example.gon17.model.Food;
 import com.example.gon17.model.FoodCart;
 import com.example.gon17.model.FoodItem;
+import com.example.gon17.model.Order;
 import com.example.gon17.model.User;
 import com.example.gon17.viewmodel.CartViewModel;
 import com.example.gon17.views.CartActivity;
@@ -37,6 +44,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.contracts.Returns;
+
 public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClickedListeners {
 
     private TextView lblWelcome;
@@ -44,27 +53,24 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
     private SearchView searchView;
 
     private RecyclerView recyclerView;
-    private List<FoodItem> foodItemList;
     private FoodItemAdapter adapter;
 
     private FoodItemDAO foodItemDAO;
+//    private List<FoodItem> foodItemList;
 
     private CartViewModel viewModel;
     private List<FoodCart> foodCartList;
     private User user;
 
-
-    public HomeFragment() {
-        // Required empty public constructor
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    @SuppressLint("MissingInflatedId")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         user = (User)bundle.getSerializable("user");
         String[] latlongPos = user.getAddress().split(";");
@@ -94,17 +100,21 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
 
         recyclerView = view.findViewById(R.id.listFoodRecyclerView);
         searchView = view.findViewById(R.id.search);
-        adapter = new FoodItemAdapter(this);
-        // Set up the food items in the RecyclerView
-        foodItemDAO = new FoodItemDAO(getContext());
-
-        // Set up the food items in the RecyclerView
-        setUpList();
+        adapter=new FoodItemAdapter();
+        foodItemDAO=new FoodItemDAO(getContext());
+        List<FoodItem> foodItemList = foodItemDAO.getAllFoodItems();
+        adapter.setFoodItemList(foodItemList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
+        adapter.setClickFoodItem(this);
 
         searchView.setQueryHint("Bạn muốn ăn gì nào?");
+
+        for(FoodItem f : foodItemList){
+                System.out.println("================ foodItemList: " + f.getFoodName());
+        }
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -114,15 +124,15 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
             @Override
             public boolean onQueryTextChange(String s) {
                 System.out.println("=========================== s: " + s);
-                List<FoodItem> list = new ArrayList<>();
-                for(FoodItem f : foodItemList){
-                    if(f.getFoodName().contains(s)){
-                        list.add(f);
-                        System.out.println("================ listname" + f.getFoodName());
+                List<FoodItem> foodItems = new ArrayList<>();
+                for(FoodItem f:foodItemList){
+                    if(f.getFoodName().toLowerCase().contains(s.toLowerCase())){
+                        System.out.println("========================== name: " + f.getFoodName());
+                        foodItems.add(f);
                     }
                 }
-                foodItemList = list;
-                adapter.setFoodItemList(list);
+//                foodItemList = foodItemDAO.searchByName(s);
+                adapter.setFoodItemList(foodItems);
                 return true;
             }
         });
@@ -137,19 +147,6 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
                 foodCartList.addAll(foodCarts);
             }
         });
-        return view;
-    }
-
-    private void setUpList() {
-        foodItemList = foodItemDAO.getAllFoodItems(); // Retrieve all food items from the database using FoodItemDAO
-        adapter.setFoodItemList(foodItemList);
-    }
-    @Override
-    public void onCardClicked(FoodItem food) {
-        Intent intent = new Intent(getContext(), DetailFoodActivity.class);
-        intent.putExtra("foodItem", food);
-        intent.putExtra("user", user);
-        startActivity(intent);
     }
 
     @Override
@@ -186,5 +183,19 @@ public class HomeFragment extends Fragment implements FoodItemAdapter.FoodClicke
         Snackbar.make(recyclerView, "Món ăn đã được thêm", Snackbar.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onItemClick(View view, int pos) {
+        FoodItem foodItem = adapter.getItem(pos);
+        Intent intent = new Intent(getContext(), DetailFoodActivity.class);
+        intent.putExtra("foodItem", foodItem);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        List<FoodItem> foodItemList = foodItemDAO.getAllFoodItems();
+        adapter.setFoodItemList(foodItemList);
+    }
 
 }
