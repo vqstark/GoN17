@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ public class Ordered_FoodFragment extends Fragment implements Ordered_FoodAdapte
     private OrderDB db;
     private User user;
     private Order order;
+    private TextView title, total, username, address, time;
 
     @Nullable
     @Override
@@ -45,12 +47,23 @@ public class Ordered_FoodFragment extends Fragment implements Ordered_FoodAdapte
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView=view.findViewById(R.id.recycleView);
+        title=view.findViewById(R.id.tvTitle);
+        total=view.findViewById(R.id.tvTotal);
+        username=view.findViewById(R.id.tvusername);
+        address=view.findViewById(R.id.tvAddress);
+        time=view.findViewById(R.id.tvTime);
 
         db=new OrderDB(getContext());
         Bundle bundle = getArguments();
         user = (User)bundle.getSerializable("user");
         order = (Order) bundle.getSerializable("order");
-        adapter=new Ordered_FoodAdapter(getContext(), user);
+        adapter=new Ordered_FoodAdapter(getContext(), user, order);
+
+        title.setText("Đơn hàng #" + order.getId());
+        total.setText("Tổng: " + order.getTotal() + " - Tiền mặt");
+        username.setText(user.getFullName() + " - " + user.getPhoneNumber());
+        address.setText(user.getAddress());
+        time.setText(order.getDate());
 
         Map<Food, Integer> list=db.getFoodByOrderID(order.getId());
         List<Food> foodList = new ArrayList<>();

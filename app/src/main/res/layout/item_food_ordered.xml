@@ -9,6 +9,7 @@
     <LinearLayout
         android:weightSum="4"
         android:orientation="horizontal"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -25,24 +26,23 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tvName"
-                android:layout_gravity="center"
                 android:text="Bánh mì pate"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 android:textSize="20dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:id="@+id/tvPrice"
-                android:layout_gravity="center"
                 android:text="Đơn giá: 30k"
                 android:textSize="15dp"
+                android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:id="@+id/tvQuantity"
-                android:layout_gravity="center"
                 android:text="Số lượng: 1"
                 android:textSize="15dp"
                 android:layout_marginLeft="10dp"
@@ -52,6 +52,7 @@
         <Button
             android:id="@+id/btdanhgia"
             android:text="Đánh giá"
+            android:textSize="15dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

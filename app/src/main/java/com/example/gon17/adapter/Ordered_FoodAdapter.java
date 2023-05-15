@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.gon17.R;
 import com.example.gon17.activity.auth.RatingActivity;
 import com.example.gon17.model.Food;
+import com.example.gon17.model.Order;
 import com.example.gon17.model.User;
 
 import java.io.ByteArrayOutputStream;
@@ -33,15 +34,17 @@ public class Ordered_FoodAdapter extends RecyclerView.Adapter<Ordered_FoodAdapte
     private List<Food> foodList;
     private List<Integer> quantity;
     private User user;
+    private Order order;
     private Context context;
 
     public void setClickListener(Itemlistener itemlistener){
         this.itemlistener=itemlistener;
     }
 
-    public Ordered_FoodAdapter(Context context, User user) {
+    public Ordered_FoodAdapter(Context context, User user, Order order) {
         this.context = context;
         this.user = user;
+        this.order = order;
         foodList = new ArrayList<>();
         quantity = new ArrayList<>();
     }
@@ -68,21 +71,27 @@ public class Ordered_FoodAdapter extends RecyclerView.Adapter<Ordered_FoodAdapte
             return;
 //        holder.img.setImageResource();
         holder.name.setText(food.getFoodName());
-        holder.price.setText("Giá: " + String.valueOf(food.getPrice()));
+        holder.price.setText("Đơn giá: " + String.valueOf(food.getPrice()));
         holder.quantity.setText("Số lượng: " + String.valueOf(quantity.get(position))); //-> lấy quantity từ bảng ordered_food+
         // chuyen byte[] --> bitmap
         byte[] hinh = food.getImage();
         Bitmap bitmap = BitmapFactory.decodeByteArray(hinh, 0, hinh.length);
         holder.img.setImageBitmap(bitmap);
-        holder.btdanhgia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, RatingActivity.class);
-                intent.putExtra("food", food);
-                intent.putExtra("user", user);
-                context.startActivity(intent);
-            }
-        });
+
+        if(order.getStatus().equalsIgnoreCase("Đã hoàn thành")){
+            holder.btdanhgia.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, RatingActivity.class);
+                    intent.putExtra("food", food);
+                    intent.putExtra("user", user);
+                    context.startActivity(intent);
+                }
+            });
+        }
+        else {
+            holder.btdanhgia.setVisibility(View.INVISIBLE);
+        }
 
     }
 

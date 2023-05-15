@@ -51,7 +51,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         if(order == null)
             return;
 //        holder.img.setImageResource();
-        holder.title.setText("Đơn hàng " + order.getId());
+        holder.title.setText("Đơn hàng #" + order.getId());
         holder.total.setText("Tổng: " + String.valueOf(order.getTotal()));
         holder.status.setText(order.getStatus());
         holder.date.setText(order.getDate());

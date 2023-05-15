@@ -8,13 +8,15 @@ public class CommentDTO implements Serializable {
     private String content;
     private int userID;
     private int foodID;
+    private byte[] img;
 
-    public CommentDTO(int id, int rating, String content, int userID, int foodID) {
+    public CommentDTO(int id, int rating, String content, int userID, int foodID, byte[] img) {
         this.id = id;
         this.rating = rating;
         this.content = content;
         this.userID = userID;
         this.foodID = foodID;
+        this.img=img;
     }
 
     public int getId() {
@@ -55,5 +57,13 @@ public class CommentDTO implements Serializable {
 
     public void setFoodID(int foodID) {
         this.foodID = foodID;
+    }
+
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
     }
 }

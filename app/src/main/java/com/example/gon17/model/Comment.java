@@ -1,6 +1,7 @@
 package com.example.gon17.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Comment implements Serializable {
     private int id;
@@ -8,23 +9,26 @@ public class Comment implements Serializable {
     private String content;
     private User user;
     private Food food;
+    private byte[] img;
 
     public Comment() {
     }
 
-    public Comment(int id, int rating, String content, User user, Food food) {
+    public Comment(int id, int rating, String content, User user, Food food, byte[] img) {
         this.id = id;
         this.rating = rating;
         this.content = content;
         this.user = user;
         this.food = food;
+        this.img=img;
     }
 
-    public Comment(int rating, String content, User user, Food food) {
+    public Comment(int rating, String content, User user, Food food, byte[] img) {
         this.rating = rating;
         this.content = content;
         this.user = user;
         this.food = food;
+        this.img=img;
     }
 
     public int getId() {
@@ -65,5 +69,13 @@ public class Comment implements Serializable {
 
     public void setFood(Food food) {
         this.food = food;
+    }
+
+    public byte[] getImg() {
+        return img;
+    }
+
+    public void setImg(byte[] img) {
+        this.img = img;
     }
 }

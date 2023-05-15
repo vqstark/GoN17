@@ -5,6 +5,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,27 +17,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.gon17.R;
+import com.example.gon17.adapter.Cmt_Detail_FoodAdapter;
 import com.example.gon17.db.CommentDB;
 import com.example.gon17.db.FoodDAO;
 import com.example.gon17.db.UserDB;
 import com.example.gon17.model.Comment;
 import com.example.gon17.model.CommentDTO;
+import com.example.gon17.model.Food;
 import com.example.gon17.model.FoodCart;
 import com.example.gon17.model.FoodItem;
+import com.example.gon17.model.User;
 import com.example.gon17.viewmodel.CartViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailFoodActivity extends AppCompatActivity {
+public class DetailFoodActivity extends AppCompatActivity{
 
     private ImageView foodImageView;
     private TextView foodNameTV, foodDescriptionTV, foodPriceTV;
     private AppCompatButton addToCartBtn;
     private FoodItem food;
+    private Food f;
+    private User user;
     private CartViewModel viewModel;
     private List<FoodCart> foodCartList;
+    private RecyclerView recyclerView;
+    private Cmt_Detail_FoodAdapter cmt_detail_foodAdapter;
 
     private CommentDB commentDB;
     private FoodDAO foodDAO;
@@ -46,12 +55,21 @@ public class DetailFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_food);
 
+        this.user = (User)getIntent().getSerializableExtra("user");
         food = getIntent().getParcelableExtra("foodItem");
         initializeVariables();
-
         commentDB = new CommentDB(getApplicationContext());
         foodDAO = new FoodDAO(getApplicationContext());
         userDB = new UserDB(getApplicationContext());
+
+        f = new Food();
+        f.setFoodName(food.getFoodName());
+        f.setId(food.getId());
+        f.setDesc(food.getFoodDescription());
+        f.setImage(food.getFoodImage());
+        f.setPrice(food.getFoodPrice());
+
+        cmt_detail_foodAdapter = new Cmt_Detail_FoodAdapter(getApplicationContext(), user, f);
 
         List<CommentDTO> commentDTOS = commentDB.getCommentsByFood(food.getId());
         List<Comment> comments = new ArrayList<>();
@@ -62,8 +80,14 @@ public class DetailFoodActivity extends AppCompatActivity {
             c.setContent(commentDTO.getContent());
             c.setFood(foodDAO.getFoodById(commentDTO.getFoodID()));
             c.setUser(userDB.selectUserById(commentDTO.getUserID()));
+            c.setImg(commentDTO.getImg());
             comments.add(c);
         }
+
+        cmt_detail_foodAdapter.setlist(comments);
+        LinearLayoutManager manager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(cmt_detail_foodAdapter);
 
         viewModel.getAllCartItems().observe(this, new Observer<List<FoodCart>>() {
             @Override
@@ -137,7 +161,7 @@ public class DetailFoodActivity extends AppCompatActivity {
         foodDescriptionTV = findViewById(R.id.detailActivityFoodDescriptionTv);
         foodPriceTV = findViewById(R.id.detailActivityFoodPriceTv);
         addToCartBtn = findViewById(R.id.detailActivityAddToCartBtn);
-
+        recyclerView = findViewById(R.id.recycleView);
 
         viewModel = new ViewModelProvider(this).get(CartViewModel.class);
 

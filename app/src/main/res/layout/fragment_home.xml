@@ -37,21 +37,23 @@
             />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/txtSearch"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search"
         android:layout_below="@+id/address"
+        app:iconifiedByDefault="false"
+        app:queryHint="nhap mon an"
+        android:background="@drawable/searchview_bg"
+        android:outlineProvider="bounds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Bạn muốn ăn gì nào?"
-        />
+        android:layout_marginBottom="10dp"/>
 
     <ImageView
         android:id="@+id/banner1"
-        android:layout_below="@+id/txtSearch"
+        android:layout_below="@+id/search"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:layout_marginLeft="15dp"

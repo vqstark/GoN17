@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.gon17.model.Food;
 import com.example.gon17.model.FoodItem;
 
 import java.util.ArrayList;
@@ -42,6 +43,22 @@ public class FoodItemDAO extends DBConnection {
         }
         cursor.close();
 
+        return foodItemList;
+    }
+    public List<FoodItem> searchByName(String key){
+        List<FoodItem> foodItemList = new ArrayList<>();
+        String whereClause = "name like ?";
+        String[] whereArgs = {"%"+key+"%"};
+        SQLiteDatabase st = getReadableDatabase();
+        Cursor rs = st.query("food", null, whereClause, whereArgs, null, null, null);
+        while (rs!=null && rs.moveToNext()){
+            int id= rs.getInt(0);
+            String name = rs.getString(1);
+            double price = rs.getDouble(2);
+            String description = rs.getString(3);
+            byte[] img = rs.getBlob(4);
+            foodItemList.add(new FoodItem(id, name ,description, img, price));
+        }
         return foodItemList;
     }
 }
